@@ -5,7 +5,7 @@
  */
 
  body {
-  background-image: var(--gradient-background);
+  background-image: var(--color-gradient-background);
 }
 
 .container {
@@ -14,10 +14,10 @@
 
 .container,
 .content {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
 }
 
 .content {
@@ -26,10 +26,10 @@
 }
 
 h1 {
-  margin: 0;
-  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.75);
-  text-align: center;
   line-height: 0.5;
+  margin: 0;
+  text-align: center;
+  text-shadow: 0 3px 0 rgba(0, 0, 0, 0.75);
 }
 
 h1 span {
@@ -42,14 +42,14 @@ h1 span {
 }
 
 nav ul {
+  display: flex;
+  font-family: var(--font-display);
+  font-size: 1.125rem;
+  gap: 1rem;
+  line-height: 1;
   list-style: none;
   margin: 0;
   padding: 0;
-  display: flex;
-  gap: 1rem;
-  font-family: var(--font-display);
-  font-size: 1.125rem;
-  line-height: 1;
 }
 
 nav ul a:hover {

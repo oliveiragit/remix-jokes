@@ -1,4 +1,4 @@
-import { LiveReload, Outlet } from "@remix-run/react";
+import { Links, LiveReload, Outlet } from "@remix-run/react";
 
 function App() {
   return (
@@ -7,11 +7,16 @@ function App() {
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <title>Remix Jokes</title>
+        <Links />
       </head>
       <body>
-        Hello world
-        <Outlet />
-        <LiveReload />
+        <div>
+          <h1>J🤪KES</h1>
+          <main>
+            <Outlet />
+            <LiveReload />
+          </main>
+        </div>
       </body>
     </html>
   );

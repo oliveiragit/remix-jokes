@@ -1,16 +1,15 @@
 import { json, type LinksFunction } from "@remix-run/node";
 import { Link, Outlet, useLoaderData } from "@remix-run/react";
 
+import { getJokes } from "~/models/joke.server";
 import stylesUrl from "~/styles/jokes.css";
-import { db } from "~/utils/db.server";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: stylesUrl },
 ];
 
 export const loader = async () => {
-  const jokes = await db.joke.findMany();
-  console.log({ jokes });
+  const jokes = await getJokes();
   return json({ jokes });
 };
 

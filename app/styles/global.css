@@ -6,22 +6,23 @@
 }
 
 :root {
+ 
   --color-background: hsl(278, 73%, 19%);
   --color-border: hsl(277, 85%, 38%);
   --color-foreground: hsl(0, 0%, 100%);
-  --color-gradient-background: radial-gradient(
+  --color-gradient-background: radial-gradient(   circle,
+  rgba(152, 11, 238, 1) 0%,
+  rgba(118, 15, 181, 1) 35%,
+  rgba(58, 13, 85, 1) 100%
+  );
   --color-invalid: hsl(356, 100%, 71%);
   --color-links-hover: hsl(var(--hs-links) 45%);
   --color-links: hsl(var(--hs-links) 50%);
   --font-body: -apple-system, "Segoe UI", Helvetica Neue, Helvetica,
     Roboto, Arial, sans-serif, system-ui, "Apple Color Emoji", "Segoe UI Emoji";
   --font-display: baloo, var(--font-body);
-    circle,
-    rgba(152, 11, 238, 1) 0%,
-    rgba(118, 15, 181, 1) 35%,
-    rgba(58, 13, 85, 1) 100%
-    );
-    --hs-links: 48 100%;
+  --hs-links: 48 100%;
+   
 }
 
 html {

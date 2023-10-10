@@ -1,5 +1,12 @@
 import type { Joke } from "@prisma/client";
+import type { BadRequestPayload } from "~/utils/request.server";
+
 import { db } from "~/utils/db.server";
+import { errorHandler } from "~/utils/request.server";
+import {
+  validateJokeContent,
+  validateJokeName,
+} from "~/utils/validations/joke.server";
 
 export async function getJokes() {
   return await db.joke.findMany({
@@ -23,6 +30,22 @@ export async function getRandomJoke() {
 }
 
 export async function createJoke(joke: Pick<Joke, "name" | "content">) {
+  const fieldErrors = {
+    content: validateJokeContent(joke.content),
+    name: validateJokeName(joke.name),
+  };
+
+  if (Object.values(fieldErrors).some(Boolean)) {
+    errorHandler<BadRequestPayload>({
+      type: "VALIDATION_FAILS",
+      payload: {
+        fieldErrors,
+        fields: joke,
+        formError: null,
+      },
+    });
+  }
+
   return db.joke.create({ data: joke });
 }
 

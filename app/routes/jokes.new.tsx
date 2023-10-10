@@ -24,7 +24,7 @@ export const action = async (params: ActionFunctionArgs) => {
       });
     }
 
-    const newJoke = await createJoke({ name, content });
+    const newJoke = await createJoke({ name, content, jokesterId: "" });
     return redirect(`/jokes/${newJoke.id}`);
   } catch (e) {
     const error = e as ErrorHandler<BadRequestPayload>;

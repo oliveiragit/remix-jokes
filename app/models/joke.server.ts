@@ -29,7 +29,9 @@ export async function getRandomJoke() {
   return randomJoke;
 }
 
-export async function createJoke(joke: Pick<Joke, "name" | "content">) {
+export async function createJoke(
+  joke: Pick<Joke, "name" | "content" | "jokesterId">
+) {
   const fieldErrors = {
     content: validateJokeContent(joke.content),
     name: validateJokeName(joke.name),
@@ -49,7 +51,9 @@ export async function createJoke(joke: Pick<Joke, "name" | "content">) {
   return db.joke.create({ data: joke });
 }
 
-export async function updateJoke(joke: Pick<Joke, "id" | "name" | "content">) {
+export async function updateJoke(
+  joke: Pick<Joke, "id" | "name" | "content" | "jokesterId">
+) {
   try {
     return db.joke.update({ where: { id: joke.id }, data: joke });
   } catch {

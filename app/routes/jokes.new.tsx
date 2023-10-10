@@ -4,6 +4,8 @@ import { useActionData } from "@remix-run/react";
 import type { BadRequestPayload, ErrorHandler } from "~/utils/request.server";
 import { badRequest, errorHandler } from "~/utils/request.server";
 import { createJoke } from "~/models/joke.server";
+import Input from "~/components/Input";
+import TextArea from "~/components/TextArea";
 
 export const action = async (params: ActionFunctionArgs) => {
   const formData = await params.request.formData();
@@ -40,47 +42,18 @@ function NewJoke() {
     <div>
       <p>Add your own hilarious joke</p>
       <form method="post">
-        <div>
-          <label>
-            Name:{" "}
-            <input
-              defaultValue={actionData?.fields?.name}
-              name="name"
-              type="text"
-              aria-invalid={Boolean(actionData?.fieldErrors?.name)}
-              aria-errormessage={
-                actionData?.fieldErrors?.name ? "name-error" : undefined
-              }
-            />
-          </label>
-          {actionData?.fieldErrors?.name ? (
-            <p className="form-validation-error" id="name-error" role="alert">
-              {actionData.fieldErrors.name}
-            </p>
-          ) : null}
-        </div>
-        <div>
-          <label>
-            Content:{" "}
-            <textarea
-              defaultValue={actionData?.fields?.content}
-              name="content"
-              aria-invalid={Boolean(actionData?.fieldErrors?.content)}
-              aria-errormessage={
-                actionData?.fieldErrors?.content ? "content-error" : undefined
-              }
-            />
-          </label>
-          {actionData?.fieldErrors?.content ? (
-            <p
-              className="form-validation-error"
-              id="content-error"
-              role="alert"
-            >
-              {actionData.fieldErrors.content}
-            </p>
-          ) : null}
-        </div>
+        <Input
+          label="Name"
+          name="name"
+          defaultValue={actionData?.fields}
+          error={actionData?.fieldErrors}
+        />
+        <TextArea
+          label="Content"
+          name="content"
+          defaultValue={actionData?.fields}
+          error={actionData?.fieldErrors}
+        />
         <div>
           {actionData?.formError ? (
             <p className="form-validation-error" role="alert">

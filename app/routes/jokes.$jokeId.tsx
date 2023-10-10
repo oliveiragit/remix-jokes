@@ -1,8 +1,9 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { Link, useLoaderData } from "@remix-run/react";
+import { useLoaderData } from "@remix-run/react";
 
 import { getJokeById } from "~/models/joke.server";
+import JokeDetails from "~/components/JokeDetail";
 
 export const loader = async ({ params }: LoaderFunctionArgs) => {
   const { jokeId } = params;
@@ -19,16 +20,9 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
   return json({ joke });
 };
 
-function JokeDetail(params: any) {
+function JokeRoute() {
   const { joke } = useLoaderData<typeof loader>();
-
-  return (
-    <section>
-      <p>{joke.name}</p>
-      <p>{joke.content}</p>
-      <Link to=".">"{joke.name}" Permalink</Link>
-    </section>
-  );
+  return <JokeDetails joke={joke} />;
 }
 
-export default JokeDetail;
+export default JokeRoute;

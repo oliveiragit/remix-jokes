@@ -12,6 +12,16 @@ export async function getJokeById(id: string) {
   return db.joke.findUnique({ where: { id } });
 }
 
+export async function getRandomJoke() {
+  const count = await db.joke.count();
+  const randomRowNumber = Math.floor(Math.random() * count);
+  const [randomJoke] = await db.joke.findMany({
+    skip: randomRowNumber,
+    take: 1,
+  });
+  return randomJoke;
+}
+
 export async function createJoke(joke: Pick<Joke, "name" | "content">) {
   return db.joke.create({ data: joke });
 }

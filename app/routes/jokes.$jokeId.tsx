@@ -1,6 +1,6 @@
 import type { LoaderFunctionArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { useLoaderData, useParams } from "@remix-run/react";
 
 import { getJokeById } from "~/models/joke.server";
 import JokeDetails from "~/components/JokeDetail";
@@ -23,6 +23,15 @@ export const loader = async ({ params }: LoaderFunctionArgs) => {
 function JokeRoute() {
   const { joke } = useLoaderData<typeof loader>();
   return <JokeDetails joke={joke} />;
+}
+
+export function ErrorBoundary() {
+  const { jokeId } = useParams();
+  return (
+    <div className="error-container">
+      There was an error loading joke by the id "${jokeId}". Sorry.
+    </div>
+  );
 }
 
 export default JokeRoute;

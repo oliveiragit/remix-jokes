@@ -13,4 +13,5 @@ function JokesIndex() {
   const { joke } = useLoaderData<typeof loader>();
   return <JokeDetails joke={joke} />;
 }
+
 export default JokesIndex;

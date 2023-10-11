@@ -1,5 +1,10 @@
 import { redirect, type ActionFunctionArgs } from "@remix-run/node";
-import { useActionData } from "@remix-run/react";
+import {
+  Link,
+  isRouteErrorResponse,
+  useActionData,
+  useRouteError,
+} from "@remix-run/react";
 
 import type { FormErrorPayload, ErrorHandler } from "~/utils/request.server";
 import { badRequest, errorHandler } from "~/utils/request.server";
@@ -15,7 +20,7 @@ export const action = async ({ request }: ActionFunctionArgs) => {
   const userId = await getUserId(request);
 
   if (!userId) {
-    return redirect("/login");
+    throw new Response("Unauthorized", { status: 401 });
   }
 
   try {
@@ -80,6 +85,17 @@ function NewJoke() {
 }
 
 export function ErrorBoundary() {
+  const error = useRouteError();
+
+  if (isRouteErrorResponse(error) && error.status === 401) {
+    return (
+      <div className="error-container">
+        <p>You must be logged in to create a joke.</p>
+        <Link to="/login">Login</Link>
+      </div>
+    );
+  }
+
   return (
     <div className="error-container">
       Something unexpected went wrong. Sorry about that.

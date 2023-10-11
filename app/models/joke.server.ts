@@ -61,6 +61,15 @@ export async function updateJoke(
   }
 }
 
-export async function deleteJoke(id: string) {
+export async function deleteJoke(id: string, userId: string) {
+  const joke = await getJokeById(id);
+
+  if (!joke) {
+    throw new Error("404");
+  }
+  if (joke?.jokesterId !== userId) {
+    throw new Error("403");
+  }
+
   return db.joke.delete({ where: { id } });
 }

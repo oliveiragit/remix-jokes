@@ -1,4 +1,8 @@
-import type { ActionFunctionArgs, LinksFunction } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LinksFunction,
+  MetaFunction,
+} from "@remix-run/node";
 import { Link, useActionData, useSearchParams } from "@remix-run/react";
 
 import type { ErrorHandler, FormErrorPayload } from "~/utils/request.server";
@@ -11,6 +15,16 @@ import { validateUrl } from "~/utils/validations/session.server";
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: styleUrl },
 ];
+
+export const meta: MetaFunction = () => {
+  const description = "Login to submit your own jokes to Remix Jokes!";
+
+  return [
+    { name: "description", content: description },
+    { name: "twitter:description", content: description },
+    { title: "Remix Jokes | Login" },
+  ];
+};
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();

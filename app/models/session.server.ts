@@ -1,33 +1,14 @@
 import type { User } from "@prisma/client";
 
 import type { FormErrorPayload } from "~/utils/request.server";
-import { db } from "~/utils/db.server";
 import { errorHandler } from "~/utils/request.server";
 import {
   validateUserPassword,
   validateUserUsername,
 } from "~/utils/validations/user.server";
 import { compareHashes } from "~/utils/password.server";
-import { createUserSession, getUserId, logout } from "~/utils/session.server";
+import { createUserSession } from "~/utils/session.server";
 import { createUser, getUser } from "./user.server";
-
-export async function getUserBySession(request: Request) {
-  const userId = await getUserId(request);
-  if (typeof userId !== "string") {
-    return null;
-  }
-
-  const user = await db.user.findUnique({
-    select: { id: true, username: true },
-    where: { id: userId },
-  });
-
-  if (!user) {
-    throw await logout(request);
-  }
-
-  return user;
-}
 
 export async function login(
   { id, passwordHash, username }: User,
@@ -123,8 +104,4 @@ export async function createSession({
       });
     }
   }
-}
-
-export async function deleteUser(id: string) {
-  return db.user.delete({ where: { id } });
 }

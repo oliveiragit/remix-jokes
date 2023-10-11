@@ -3,7 +3,7 @@ import * as React from "react";
 type TextAreaProps = {
   label: string;
   name: string;
-  error?: { [field: string]: string | undefined } | string;
+  error?: { [field: string]: string | undefined } | string | null;
   defaultValue: { [field: string]: string | undefined } | string;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
@@ -12,7 +12,8 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     { label, name, defaultValue, error, ...rest },
     ref
   ) {
-    const errorValueFormatted = typeof error === "object" ? error[name] : error;
+    const errorValueFormatted =
+      typeof error === "object" ? error?.[name] : error;
     const defaultValueFormatted =
       typeof defaultValue === "object" ? defaultValue[name] : defaultValue;
 

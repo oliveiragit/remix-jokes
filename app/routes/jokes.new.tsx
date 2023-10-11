@@ -1,7 +1,7 @@
 import { redirect, type ActionFunctionArgs } from "@remix-run/node";
 import { useActionData } from "@remix-run/react";
 
-import type { BadRequestPayload, ErrorHandler } from "~/utils/request.server";
+import type { FormErrorPayload, ErrorHandler } from "~/utils/request.server";
 import { badRequest, errorHandler } from "~/utils/request.server";
 import { createJoke } from "~/models/joke.server";
 import Input from "~/components/Input";
@@ -14,7 +14,7 @@ export const action = async (params: ActionFunctionArgs) => {
 
   try {
     if (typeof content !== "string" || typeof name !== "string") {
-      throw errorHandler({
+      throw errorHandler<FormErrorPayload>({
         type: "VALIDATION_FAILS",
         payload: {
           fieldErrors: null,
@@ -27,7 +27,7 @@ export const action = async (params: ActionFunctionArgs) => {
     const newJoke = await createJoke({ name, content, jokesterId: "" });
     return redirect(`/jokes/${newJoke.id}`);
   } catch (e) {
-    const error = e as ErrorHandler<BadRequestPayload>;
+    const error = e as ErrorHandler<FormErrorPayload>;
     if (error.type === "VALIDATION_FAILS") {
       return badRequest(error.payload);
     }

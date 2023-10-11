@@ -1,5 +1,5 @@
 import type { Joke } from "@prisma/client";
-import type { BadRequestPayload } from "~/utils/request.server";
+import type { FormErrorPayload } from "~/utils/request.server";
 
 import { db } from "~/utils/db.server";
 import { errorHandler } from "~/utils/request.server";
@@ -38,7 +38,7 @@ export async function createJoke(
   };
 
   if (Object.values(fieldErrors).some(Boolean)) {
-    errorHandler<BadRequestPayload>({
+    errorHandler<FormErrorPayload>({
       type: "VALIDATION_FAILS",
       payload: {
         fieldErrors,

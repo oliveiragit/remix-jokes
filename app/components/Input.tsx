@@ -3,13 +3,14 @@ import * as React from "react";
 type InputProps = {
   label: string;
   name: string;
-  error?: { [field: string]: string | undefined } | string;
+  error?: { [field: string]: string | undefined } | string | null;
   defaultValue: { [field: string]: string | undefined } | string;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
   function InputComponent({ label, name, defaultValue, error, ...rest }, ref) {
-    const errorValueFormatted = typeof error === "object" ? error[name] : error;
+    const errorValueFormatted =
+      typeof error === "object" ? error?.[name] : error;
     const defaultValueFormatted =
       typeof defaultValue === "object" ? defaultValue[name] : defaultValue;
 

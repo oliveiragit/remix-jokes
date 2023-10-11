@@ -6,11 +6,17 @@ import { badRequest, errorHandler } from "~/utils/request.server";
 import { createJoke } from "~/models/joke.server";
 import Input from "~/components/Input";
 import TextArea from "~/components/TextArea";
+import { getUserId } from "~/utils/session.server";
 
-export const action = async (params: ActionFunctionArgs) => {
-  const formData = await params.request.formData();
+export const action = async ({ request }: ActionFunctionArgs) => {
+  const formData = await request.formData();
   const name = formData.get("name");
   const content = formData.get("content");
+  const userId = await getUserId(request);
+
+  if (!userId) {
+    return redirect("/login");
+  }
 
   try {
     if (typeof content !== "string" || typeof name !== "string") {
@@ -24,7 +30,11 @@ export const action = async (params: ActionFunctionArgs) => {
       });
     }
 
-    const newJoke = await createJoke({ name, content, jokesterId: "" });
+    const newJoke = await createJoke({
+      name,
+      content,
+      jokesterId: userId,
+    });
     return redirect(`/jokes/${newJoke.id}`);
   } catch (e) {
     const error = e as ErrorHandler<FormErrorPayload>;

@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "yarn prisma migrate reset -f ",
     "build": "remix build",
-    "postbuild": "mkdir -p ./build/prisma && cp ./prisma/dev.db ./build/prisma/dev.db ",
+    "postbuild": "mkdir -p ./public/build && cp ./prisma/dev.db ./public/build/dev.db ",
     "dev": "remix dev --manual",
     "start": "remix-serve ./build/index.js",
     "typecheck": "tsc"

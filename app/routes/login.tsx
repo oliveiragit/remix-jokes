@@ -3,11 +3,11 @@ import type {
   LinksFunction,
   MetaFunction,
 } from "@remix-run/node";
-import { Link, useActionData, useSearchParams } from "@remix-run/react";
+import { Form, Link, useActionData, useSearchParams } from "@remix-run/react";
 
 import type { ErrorHandler, FormErrorPayload } from "~/utils/request.server";
 import { badRequest, errorHandler } from "~/utils/request.server";
-import Input from "~/components/Input";
+import { Input } from "~/components/Input";
 import styleUrl from "~/styles/login.css";
 import { createSession } from "~/models/session.server";
 import { validateUrl } from "~/utils/validations/session.server";
@@ -74,7 +74,7 @@ function Login() {
     <section className="container">
       <div className="content" data-light="">
         <h1>Login</h1>
-        <form method="post">
+        <Form method="post">
           <input
             type="hidden"
             name="redirectTo"
@@ -105,13 +105,13 @@ function Login() {
             </label>
           </fieldset>
           <Input
-            defaultValue={actionData?.fields}
+            defaultValues={actionData?.fields}
             error={actionData?.fieldErrors}
             label="Username"
             name="username"
           />
           <Input
-            defaultValue={actionData?.fields}
+            defaultValues={actionData?.fields}
             error={actionData?.fieldErrors}
             label="Password"
             name="password"
@@ -126,7 +126,7 @@ function Login() {
           <button type="submit" className="button">
             Submit
           </button>
-        </form>
+        </Form>
       </div>
       <div className="links">
         <ul>

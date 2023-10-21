@@ -1,21 +1,22 @@
 import * as React from "react";
+import type { DefaultValues, Errors } from "~/types/Forms";
 
 type TextAreaProps = {
   label: string;
   name: string;
-  error?: { [field: string]: string | undefined } | string | null;
-  defaultValue: { [field: string]: string | undefined } | string;
+  error?: Errors;
+  defaultValues: DefaultValues;
 } & React.TextareaHTMLAttributes<HTMLTextAreaElement>;
 
-const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
+export const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
   function TextAreaComponent(
-    { label, name, defaultValue, error, ...rest },
+    { label, name, defaultValues, error, ...rest },
     ref
   ) {
     const errorValueFormatted =
       typeof error === "object" ? error?.[name] : error;
     const defaultValueFormatted =
-      typeof defaultValue === "object" ? defaultValue[name] : defaultValue;
+      typeof defaultValues === "object" ? defaultValues[name] : defaultValues;
 
     return (
       <div>
@@ -45,5 +46,3 @@ const TextArea = React.forwardRef<HTMLTextAreaElement, TextAreaProps>(
     );
   }
 );
-
-export default TextArea;

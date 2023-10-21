@@ -1,18 +1,20 @@
 import * as React from "react";
 
+import type { DefaultValues, Errors } from "~/types/Forms";
+
 type InputProps = {
   label: string;
   name: string;
-  error?: { [field: string]: string | undefined } | string | null;
-  defaultValue: { [field: string]: string | undefined } | string;
+  error?: Errors;
+  defaultValues: DefaultValues;
 } & React.InputHTMLAttributes<HTMLInputElement>;
 
-const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  function InputComponent({ label, name, defaultValue, error, ...rest }, ref) {
+export const Input = React.forwardRef<HTMLInputElement, InputProps>(
+  function InputComponent({ label, name, defaultValues, error, ...rest }, ref) {
     const errorValueFormatted =
       typeof error === "object" ? error?.[name] : error;
     const defaultValueFormatted =
-      typeof defaultValue === "object" ? defaultValue[name] : defaultValue;
+      typeof defaultValues === "object" ? defaultValues[name] : defaultValues;
 
     return (
       <div>
@@ -43,5 +45,3 @@ const Input = React.forwardRef<HTMLInputElement, InputProps>(
     );
   }
 );
-
-export default Input;

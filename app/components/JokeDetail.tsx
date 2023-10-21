@@ -1,14 +1,12 @@
+import type { Joke } from "~/types/Joke";
+
 import { Link } from "@remix-run/react";
 
 type JokeDetailParams = {
-  joke: {
-    id: string;
-    name: string;
-    content: string;
-  };
+  joke: Joke;
 };
 
-function JokeDetails({ joke: { id, name, content } }: JokeDetailParams) {
+export function JokeDetails({ joke: { id, name, content } }: JokeDetailParams) {
   return (
     <section>
       <p>{name}</p>
@@ -17,5 +15,3 @@ function JokeDetails({ joke: { id, name, content } }: JokeDetailParams) {
     </section>
   );
 }
-
-export default JokeDetails;

@@ -1,4 +1,8 @@
-import type { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import type {
+  ActionFunctionArgs,
+  LoaderFunctionArgs,
+  MetaFunction,
+} from "@remix-run/node";
 import { json, redirect } from "@remix-run/node";
 import {
   isRouteErrorResponse,
@@ -8,8 +12,9 @@ import {
 } from "@remix-run/react";
 
 import { deleteJoke, getJokeById } from "~/models/joke.server";
-import JokeDetails from "~/components/JokeDetail";
 import { requireUserId } from "~/utils/session.server";
+import { JokeComponent } from "~/components/Joke";
+import { JokeDelete } from "~/components/JokeDelete";
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => {
   const { description, title } = data
@@ -78,16 +83,7 @@ export const action = async ({ params, request }: ActionFunctionArgs) => {
 
 function JokeRoute() {
   const { joke } = useLoaderData<typeof loader>();
-  return (
-    <div>
-      <JokeDetails joke={joke} />
-      <form method="post">
-        <button name="intent" type="submit" className="button" value="delete">
-          Delete
-        </button>
-      </form>
-    </div>
-  );
+  return <JokeComponent joke={joke} Footer={<JokeDelete />} />;
 }
 
 export function ErrorBoundary() {

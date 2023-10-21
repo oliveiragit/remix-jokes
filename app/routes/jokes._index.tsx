@@ -7,7 +7,7 @@ import {
 } from "@remix-run/react";
 
 import { getRandomJoke } from "~/models/joke.server";
-import JokeDetails from "~/components/JokeDetail";
+import { JokeDetails } from "~/components/JokeDetail";
 
 export const loader = async () => {
   const joke = await getRandomJoke();

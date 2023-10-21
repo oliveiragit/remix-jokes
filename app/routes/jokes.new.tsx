@@ -3,15 +3,22 @@ import {
   Link,
   isRouteErrorResponse,
   useActionData,
+  useNavigation,
   useRouteError,
 } from "@remix-run/react";
 
 import type { FormErrorPayload, ErrorHandler } from "~/utils/request.server";
 import { badRequest, errorHandler } from "~/utils/request.server";
 import { createJoke } from "~/models/joke.server";
-import Input from "~/components/Input";
-import TextArea from "~/components/TextArea";
 import { getUserId } from "~/utils/session.server";
+import { JokeComponent } from "~/components/Joke";
+import {
+  validateJokeContent,
+  validateJokeName,
+} from "~/utils/validations/joke.server";
+import { JokeDelete } from "~/components/JokeDelete";
+import { JokeForm } from "~/components/JokeForm";
+import { JokeFormCreateButton } from "~/components/JokeFormCreateButton";
 
 export const action = async ({ request }: ActionFunctionArgs) => {
   const formData = await request.formData();
@@ -52,34 +59,35 @@ export const action = async ({ request }: ActionFunctionArgs) => {
 
 function NewJoke() {
   const actionData = useActionData<typeof action>();
+  const navigation = useNavigation();
+
+  if (navigation.formData) {
+    const content = navigation.formData.get("content");
+    const name = navigation.formData.get("name");
+    if (
+      typeof content === "string" &&
+      typeof name === "string" &&
+      !validateJokeContent(content) &&
+      !validateJokeName(name)
+    ) {
+      return (
+        <JokeComponent
+          joke={{ name, content }}
+          Footer={<JokeDelete disabled />}
+        />
+      );
+    }
+  }
 
   return (
     <div>
       <p>Add your own hilarious joke</p>
-      <form method="post">
-        <Input
-          label="Name"
-          name="name"
-          defaultValue={actionData?.fields}
-          error={actionData?.fieldErrors}
-        />
-        <TextArea
-          label="Content"
-          name="content"
-          defaultValue={actionData?.fields}
-          error={actionData?.fieldErrors}
-        />
-        <div>
-          {actionData?.formError ? (
-            <p className="form-validation-error" role="alert">
-              {actionData.formError}
-            </p>
-          ) : null}
-          <button type="submit" className="button">
-            Add
-          </button>
-        </div>
-      </form>
+      <JokeForm
+        errors={actionData?.fieldErrors}
+        defaultValues={actionData?.fields}
+        formError={actionData?.formError}
+        JokeSubmitButton={<JokeFormCreateButton />}
+      />
     </div>
   );
 }
